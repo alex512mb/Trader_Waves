@@ -6,9 +6,106 @@
     <title>Unity WebGL Player | Trading_Waves</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      :root {
+        --bg-gradient: radial-gradient(1200px 600px at 10% 10%, rgba(0, 255, 163, 0.08), transparent 45%),
+                        radial-gradient(900px 500px at 90% 20%, rgba(0, 153, 255, 0.08), transparent 50%),
+                        radial-gradient(1000px 600px at 50% 90%, rgba(255, 0, 183, 0.06), transparent 55%),
+                        linear-gradient(180deg, #0b0f14 0%, #06080b 100%);
+        --text-primary: #e6f1ff;
+        --text-secondary: #9db0c9;
+        --accent: #00ffa3;
+        --accent-2: #33a3ff;
+        --accent-3: #ff55d5;
+        --card-bg: rgba(9, 14, 20, 0.6);
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      html, body {
+        height: 100%;
+        background: var(--bg-gradient);
+        color: var(--text-primary);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+        line-height: 1.5;
+      }
+
+      .site-wrap { min-height: 100%; display: flex; flex-direction: column; }
+
+      /* Header */
+      .tw-header { position: sticky; top: 0; z-index: 20; backdrop-filter: saturate(140%) blur(10px); background: linear-gradient(180deg, rgba(10,13,18,0.85), rgba(10,13,18,0.35)); border-bottom: 1px solid var(--border); }
+      .tw-header .inner { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.3px; }
+      .brand .logo { width: 28px; height: 28px; border-radius: 6px; background: conic-gradient(from 210deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent)); box-shadow: 0 0 18px rgba(0,255,163,0.4); }
+      .brand .title { font-size: 16px; color: var(--text-primary); }
+      .nav { display: flex; gap: 18px; }
+      .nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+      .nav a:hover { color: var(--text-primary); }
+
+      /* Hero */
+      .hero { position: relative; max-width: 1200px; margin: 28px auto 10px; padding: 0 20px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: center; }
+      .hero h1 { font-size: 40px; line-height: 1.15; margin: 0 0 10px; background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .hero p { margin: 0 0 18px; color: var(--text-secondary); }
+      .badges { display: flex; gap: 10px; margin-bottom: 16px; }
+      .badge { font-size: 12px; color: #0e141b; background: linear-gradient(140deg, var(--accent), var(--accent-2)); border-radius: 999px; padding: 6px 10px; box-shadow: var(--shadow); }
+      .cta { display: flex; gap: 12px; }
+      .btn { appearance: none; border: 1px solid var(--border); background: linear-gradient(180deg, rgba(18,24,31,0.9), rgba(10,13,18,0.9)); color: var(--text-primary); padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; text-decoration: none; }
+      .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.18); box-shadow: 0 8px 20px rgba(0,153,255,0.25); }
+      .btn-primary { background: linear-gradient(140deg, rgba(0,255,163,0.15), rgba(51,163,255,0.15)); border: 1px solid rgba(0,255,163,0.35); box-shadow: 0 8px 24px rgba(0,255,163,0.2); }
+
+      /* Game section */
+      .game-wrap { max-width: 1200px; margin: 8px auto 30px; padding: 0 20px; }
+      #unity-container { background: linear-gradient(180deg, rgba(13,18,26,0.9), rgba(7,10,15,0.9)); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset; position: relative; overflow: hidden; }
+      #unity-container::before { content: ""; position: absolute; inset: -1px; border-radius: 16px; padding: 1px; background: linear-gradient(120deg, rgba(0,255,163,0.5), rgba(51,163,255,0.45), rgba(255,85,213,0.45)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: 0.55; }
+      #unity-footer { border-top: 1px solid var(--border); }
+
+      /* Tokenomics */
+      .tokenomics { max-width: 1200px; margin: 0 auto 38px; padding: 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .tok-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); }
+      .tok-card h4 { margin: 0 0 6px; font-size: 14px; color: var(--text-primary); }
+      .tok-card p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+
+      /* Footer */
+      .site-footer { max-width: 1200px; margin: 10px auto 26px; padding: 0 20px; color: var(--text-secondary); font-size: 12px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 12px; }
+
+      /* Responsive */
+      @media (max-width: 980px) { .hero { grid-template-columns: 1fr; margin-top: 20px; } .hero h1 { font-size: 34px; } .tokenomics { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 640px) { .nav { display: none; } .hero h1 { font-size: 28px; } .tokenomics { grid-template-columns: 1fr; } .cta { flex-wrap: wrap; } }
+    </style>
   </head>
   <body>
-    <div id="unity-container" class="unity-desktop">
+    <div class="site-wrap">
+      <header class="tw-header">
+        <div class="inner">
+          <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div class="title">Catch Trend Coin</div>
+          </div>
+          <nav class="nav">
+            <a href="#play">Игра</a>
+            <a href="#tokenomics">Токеномика</a>
+            <a href="#socials">Соцсети</a>
+          </nav>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="copy">
+          <div class="badges">
+            <span class="badge">WebGL • Unity</span>
+            <span class="badge">Meme Token</span>
+          </div>
+          <h1>Catch Trend Coin</h1>
+          <p>Играй, трейдь, смейся. Мем‑токен о рынках и волнах — ловим тренды, набиваем кошелёк и кайфуем от волатильности.</p>
+          <div class="cta">
+            <a class="btn btn-primary" href="#play">Играть сейчас</a>
+            <a class="btn" href="#buy">Купить токен</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="game-wrap" id="play">
+        <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1049 height=590 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
@@ -21,6 +118,28 @@
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">Trading_Waves</div>
+      </div>
+        </div>
+      </div>
+
+      <section class="tokenomics" id="tokenomics">
+        <div class="tok-card">
+          <h4>Справедливая эмиссия</h4>
+          <p>Без пресейла. Токены распределяются честно среди сообщества.</p>
+        </div>
+        <div class="tok-card">
+          <h4>Ликвидность</h4>
+          <p>Пул с защитой. Стабильность цены и меньше волатильных шипов.</p>
+        </div>
+        <div class="tok-card">
+          <h4>Игровая утилита</h4>
+          <p>Зарабатывай в игре и используй токен для внутриигровых перков.</p>
+        </div>
+      </section>
+
+      <div class="site-footer" id="socials">
+        <span>© Nice Pixel — Trading_Waves</span>
+        <span>Следи за нами: TG • X • Discord</span>
       </div>
     </div>
     <script>
