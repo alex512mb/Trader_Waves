@@ -55,7 +55,10 @@
 
       /* Game section */
       .game-wrap { max-width: 1200px; margin: 8px auto 30px; padding: 0 20px; }
-      #unity-container { background: linear-gradient(180deg, rgba(13,18,26,0.9), rgba(7,10,15,0.9)); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset; position: relative; overflow: hidden; z-index: 0; }
+      /* Override Unity template absolute/fixed positioning to keep normal flow */
+      #unity-container { background: linear-gradient(180deg, rgba(13,18,26,0.9), rgba(7,10,15,0.9)); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset; position: relative !important; left: auto !important; top: auto !important; transform: none !important; overflow: hidden; z-index: 0; }
+      #unity-container.unity-desktop { position: relative !important; left: auto !important; top: auto !important; transform: none !important; }
+      #unity-container.unity-mobile { position: relative !important; width: 100% !important; height: auto !important; left: auto !important; top: auto !important; transform: none !important; }
       #unity-container::before { content: ""; position: absolute; inset: 0; border-radius: 16px; padding: 1px; background: linear-gradient(120deg, rgba(0,255,163,0.5), rgba(51,163,255,0.45), rgba(255,85,213,0.45)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: 0.55; }
       /* Make canvas responsive to avoid overlap */
       #unity-canvas { width: 100%; height: auto; max-width: 100%; display: block; aspect-ratio: 1049 / 590; }
