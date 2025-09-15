@@ -1,5 +1,0 @@
-{
-  "name": "Trader Waves",
-  "description": "A landing page for Trader Waves, a trading simulation game. Features an embedded Unity WebGL build of the game.",
-  "requestFramePermissions": []
-}
